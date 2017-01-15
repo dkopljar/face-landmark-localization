@@ -90,6 +90,36 @@ Kako je za potrebe ovog projekta korištena biblioteka \emph{OpenCV}, za izjedna
 
 \section{Detekcija i izlučivanje lica}
 
+Nakon što je slika u potpunosti obrađena slijedi detekcija, tj. izlučivanje pozicija lica na slici. Kako je za potrebe ovog projekta korištena biblioteka \emph{OpenCV}, za izlučivanje pozicije lica korištene korištene su kaskade boostanih Haarovih klasifikatora.
+
+Metodu korištenja boostanih Haarovih klasifikatora predložili su Paul Viola i Michael Jones ne tako davne 2002. godine. To je ujedno bila prva metoda iz strojnog učenja koja postiže dobre rezultate u realnom vremenu. Iako je primarna svrha te metode prepoznavanje lica, može se iskoristiti za učenje prepoznavanja i ostalih objekata \citep{culjakRad}.
+
+Metoda Viola-Jones umjesto direktnog rada s slikovnim elementima ulazne slike, što se pokazao kao proces s velikom složenošču, radi s određenim skupom reduciranih značajki te slike, to jest Haarovim značajkama. Haarove značajke su pravokutne značajke i računaju se kao razlika nekoliko suma slikovnih elemenata unutar različitih pravokutnih područja slike. Vrijednosti dobivene takvim računom predstavljaju prisustvo ili odsustvo nekih karakteristika slike (kao što su rubovi, kutevi i sl.) \citep{culjakRad}.
+
+Na slici \ref{fig:haar} prikazane su osnovne Haarove značajke. Skaliranjem, rotacijom i translacijom osnovnih značajki nastaju ostale Haarove značajke. Svaka značajka je konvolucijska maska, a vrijednost značajke, kako je već navedeno, dobiva se oduzimanjem sume vrijednosti slikovnih elemenata ispod bijelog područja od sume crnog područja pomnoženog s omjerom crne i bijele površine. Upravo zbog toga su te značajke vrlo osjetljive na promjenu kontrasta pa ih se interpretira kao značajke ruba ili linije \citep{franicRad}.
+
+\begin{figure}[htb]
+    \centering
+    \includegraphics[width=12cm]{images/haar.png}
+    \caption{Osnovne Haarove značajke}
+    \label{fig:haar}
+\end{figure}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 \chapter{Ispitivanje rješenja}
 (do 10 stranica)
