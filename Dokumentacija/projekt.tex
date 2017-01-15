@@ -38,11 +38,11 @@
 
 \chapter{Projektni zadatak}
 
-(do 10 stranica)
-
 \section{Opis projektnog zadatka}
 
-Opis problema koji zadatak obuhvaća. Što su ulazni podaci, a što zahtjevani izlaz? Koncepti/algoritmi koji se obavezno moraju upotrijebiti?
+Lokalizacija karakterističnih točaka lica u videu ili fotografiji je tehnika koja se danas koristi u mnogim sustavima i uređajima. Susrećemo je na raznim društvenim servisima, poput \textit{Facebook-a}, koji ju koriste za automatsko označavanje ljudi na fotografijama. Većina algoritama lokalizacije točaka lica su iznimno kompleksni i zahtjevaju veliku količinu procesorske snage i memorije, pa je težnja usmjerena na poboljšavanje tih algoritama. No razvojem i napretkom tehnologije algoritmi lokalizacije točaka lica se danas uspješno, bez velikih problema, izvode i na mobilnim uređajima koji ih koriste u raznoraznim aplikacijama poput alata za šminkanje gdje osoba može uz pomoć praćenja lica vidjeti kako bi izgledali s određenim bojama na svom licu.
+
+Kroz ovaj projekt pokušat će se dani problem lokalizacije karakterističnih točaka lica riješiti uporabom dubokih neuronskih mreža.
 
 \section{Pregled i opis srodnih rješenja}
 
@@ -50,7 +50,9 @@ Iscrpan pregled srodne literature s predloženim rješenjima. Opis postojećih i
 
 \section{Konceptualno rješenje zadatka}
 
-Opisati niz algoritama i koncepata koji će se koristiti u rješavanju i to redom kojim će se koristiti. Nabrojiti ulazne podatke u niz i sve međurezultate do rješenja.
+Sam sustav za lokalizaciju karakterističnih točaka lica je podijeljen u više segmenata, tj. podsustava. Prvi segment sustava na ulaz prima sliku ili jedan vremenski okvir video isječka. Dana slika ili isječak se zatim pretvaraju u sliku sivih nijansi. Tako obrađena slika se dovodi na ulaz podsustava za izlučivanje položaja svih lica na slici te kao rezultat vraća listu u obliku: koordinate gornjeg lijevog ugla, širina i visina lica.
+
+Tako dobivena lista se zatim iskoristi na način da se iz slike sivih nijansi izrežu prepoznata lica i skaliraju. Pojedina skalirana lica dovede se na ulaze duboke neuronske mreže koja kao izlaze daje koordinate odabranih karakterističnih točaka lica. Tako dobivene točke skaliraju se u prostor početne slike ili isječka te se iscrtavaju i prikazuju korisniku sustava. 
 
 \chapter{Postupak rješavanja zadatka}
 
