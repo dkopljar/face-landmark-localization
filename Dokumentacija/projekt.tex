@@ -5,7 +5,6 @@
 \usepackage{url}
 \usepackage{amsmath}
 
-
 %Engleski termini
 \newcommand{\eng}[1]{(eng. \textit{#1})}
 
@@ -96,8 +95,6 @@ Metodu korištenja boostanih Haarovih klasifikatora predložili su Paul Viola i 
 
 Metoda Viola-Jones umjesto direktnog rada s slikovnim elementima ulazne slike, što se pokazao kao proces s velikom složenošču, radi s određenim skupom reduciranih značajki te slike, to jest Haarovim značajkama. Haarove značajke su pravokutne značajke i računaju se kao razlika nekoliko suma slikovnih elemenata unutar različitih pravokutnih područja slike. Vrijednosti dobivene takvim računom predstavljaju prisustvo ili odsustvo nekih karakteristika slike (kao što su rubovi, kutevi i sl.) \citep{culjakRad}.
 
-Na slici \ref{fig:haar} prikazane su osnovne Haarove značajke. Skaliranjem, rotacijom i translacijom osnovnih značajki nastaju ostale Haarove značajke. Svaka značajka je konvolucijska maska, a vrijednost značajke, kako je već navedeno, dobiva se oduzimanjem sume vrijednosti slikovnih elemenata ispod bijelog područja od sume crnog područja pomnoženog s omjerom crne i bijele površine. Upravo zbog toga su te značajke vrlo osjetljive na promjenu kontrasta pa ih se interpretira kao značajke ruba ili linije \citep{franicRad}.
-
 \begin{figure}[htb]
     \centering
     \includegraphics[width=12cm]{images/haar.png}
@@ -105,21 +102,31 @@ Na slici \ref{fig:haar} prikazane su osnovne Haarove značajke. Skaliranjem, rot
     \label{fig:haar}
 \end{figure}
 
+Na slici \ref{fig:haar} prikazane su osnovne Haarove značajke. Skaliranjem, rotacijom i translacijom osnovnih značajki nastaju ostale Haarove značajke. Svaka značajka je konvolucijska maska, a vrijednost značajke, kako je već navedeno, dobiva se oduzimanjem sume vrijednosti slikovnih elemenata ispod bijelog područja od sume crnog područja pomnoženog s omjerom crne i bijele površine. Upravo zbog toga su te značajke vrlo osjetljive na promjenu kontrasta pa ih se interpretira kao značajke ruba ili linije \citep{franicRad}.
 
+\begin{figure}[htb]
+    \centering
+    \includegraphics[width=13cm]{images/friends.jpg}
+    \caption{Primjer rada kaskadnog Haarovog klasifikatora}
+    \label{fig:haar_cls}
+\end{figure}
 
+\emph{CascadeClassifier} razred iz biblioteke \emph{OpenCV} u konstruktoru prima putanju do \emph{xml} datoteke koja sadrži naučenu kaskadu Haarovih klasifikatora. Za potrebe ovog rada korištena je datoteka \emph{haarcascade frontalface default} koja dolazi skupa s bibliotekom \emph{OpenCV}. Metoda \emph{detectMultiScale} prima na ulaz sliku sivih nijansi te vraća listu pozicija lica na slici. Primjer rada algoritma je vidljiv na slici \ref{fig:haar_cls}.
 
+\section{Lokalizacija karakterističnih točaka lica}
 
+Nakon izlučivanja pojedinih lica iz slike, dana lica se režu te skaliraju na uniformne vrijednosti, u ovom slučaju na dimenziju $96 \times 96$ slikovnih elemenata. Tako skalirana lica, tj. njihovi slikovni elementi se dovode na ulaze duboke neuronske mreže koja na svojim izlazima daje koordinate petnaest karakterističnih točaka lica: vrh nosa, lijevi i desni rub usta, sredina gornje i donje usne, centar oba oka, lijevi i desni kraj oba oka te lijevi i desni kraj obje obrve.
 
+Primjer rada duboke neuronske mreže na lokalizaciji karakterističnih točaka lica vidljiv je na slici \ref{fig:lkt}.
 
+\begin{figure}[htb]
+    \centering
+    \includegraphics[width=13cm]{images/jennifer_good.jpg}
+    \caption{Lokalizacija karakterističnih točaka lica}
+    \label{fig:lkt}
+\end{figure}
 
-
-
-
-
-
-
-
-
+\subsection{TODO: Duboka neuronska mreža - Andrija ovdje ubaci teoriju}
 
 \chapter{Ispitivanje rješenja}
 (do 10 stranica)
