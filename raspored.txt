@@ -1,0 +1,17 @@
+Primjer proslogodisnje dokiumentacije: primjer_dokumentacije.pdf
+
+1. Projektni zadatak
+  - Opis projektnog zadatka - (Gulan)
+  - Pregled i opis srednjih rjesenja - (?????)
+    - proci kroz ova tri rada (07360185.pdf, Burgos-Artiz...pdf i face-cvpr12.pdf)
+      i opisati ih. Najbolje pogledati primjer dokumentacije kako je to druga grupa napravila (primjer_dokumentacije.pdf)
+  - Konceptualno rjesenje zadatka - (Gulan)
+2. Postupak rjesavanja zadatka
+  - Izlucivanje lica - Gulan
+  - jos neka poglavlja ako se sjetim (Gulan)
+  - Konvolucijske neuronske mreze - (Andrija valjda, opisati sto su, conv layer,
+      maxpool layer, dense layer, droput - pogledat u learn.py sto smo sve koristili - varijabla net)
+3. Ucenje/Ispitivanje - Gulan
+4. Opis programske implementacije rjesenja (Kopljar)
+5. Zakljucak (??????)
+6. Literatura (????/)
