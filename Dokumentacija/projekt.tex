@@ -195,9 +195,11 @@ Program je moguće pokretati na dva načina. Prvi način poziva se kao: \emph{py
 
 \chapter{Zaključak}
 
-(do 2 stranice)
+Duboka neuronska mreža se pokazala kao dobar model za rješavanje problema lokalizacije karakterističnih točaka lica. Unatoč lošijim performanse na običnim stolnim računalima prilikom samog učenja, sama mreža nije predstavljala usko grlo sustava prilikom samog iskorištavanja za lokalizaciju točaka.
 
-Ocijeniti uspješnost implementacije, navesti budući rad u smislu potrebnih poboljšanja. 
+Daljnja poboljšanja se mogu ostvariti u vidu nešto boljeg i većeg skupa podataka. Uočeno je nekoliko problema sa samo mrežom za koje je većinom odgovoran skup podataka za učenje. Na primjer, mreža teško prati jako otvorena usta, čisto iz razloga jer takvih primjera slika nema u skupu za učenje. Također ima problema s praćenjem visoko podignutih obrva, iz istog razloga kao i s ustima.
+
+Što se tiče samog sustava kao cjeline problem predstavlja nerobusnost Haarovih kaskadnih klasifikatora prilikom lokalizacije lica te bi se u budućim radovima trebalo posvetiti i tom problemu. Navedeni kaskadni klasifikatori jako teško detektiraju lice ukoliko je osoba malo nakrivila ili zakrenula glavu.
 
 \bibliography{literatura}
 \bibliographystyle{fer}
