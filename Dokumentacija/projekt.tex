@@ -129,22 +129,69 @@ Primjer rada duboke neuronske mreže na lokalizaciji karakterističnih točaka l
 \subsection{TODO: Duboka neuronska mreža - Andrija ovdje ubaci teoriju}
 
 \chapter{Ispitivanje rješenja}
-(do 10 stranica)
 
 \section{Ispitna baza}
-Opisati ispitnu bazu, tipove i broj različitih uzoraka u bazi te na koji su način uzorci iz baze korišteni prilikom učenja i ispitivanja rješenja projektnog zadatka. 
+
+Baza lica preuzeta je s jednog od natjecanja sa servisa \emph{Kaggle} \citep{kaggle}. Točnije, preuzeta je s natjecanja \emph{Facial Keypoints Detection} koje je otvoreno 2013. godine i zatvorilo se nedavno, početkom 2017. godine, za vrijeme pisanja ovog rada.
+
+Dana baza se sastoji od 7049 označenih slika lica u skupu za učenje te 1783 neoznačenih slika u skupu za testiranje, odnosno u skupu koji se poglavito koristio za samu evaluaciju natjecanja. Svaka slika lica je dimenzija $96 \times 96$. Slike lica su označene sa 15 karakterističnih točaka:
+
+\begin{itemize}
+    \item vrh nosa, 
+    \item lijevi i desni rub usta, 
+    \item sredina gornje i donje usne, 
+    \item centar oba oka,
+    \item lijevi i desni kraj oba oka te 
+    \item lijevi i desni kraj obje obrve.
+\end{itemize}
+
+Bitno je napomenuti da nisu svih 7049 slika lica iz skupa za učenje u potpunosti označene, već nekima nedostaju pojedine značajke. Stoga se broj iskoristivih slika za učenje smanjio na brojku nešto manju od 2200. No, za rješavanje tog problema iskorištena je metoda koja je predložena u članku \citep{daniel}. Dakle, svaka dostupna slika lica sa svim označenim značajkama je zrcaljena, kako je prikazano na slici \ref{fig:flip}, te na taj način se skup za učenje udvostručio i osigurana je bolja generalizacija neuronske mreže.
+
+\begin{figure}[htb]
+    \centering
+    \includegraphics[width=12cm]{images/face_flip.png}
+    \caption{Zrcaljeno lice}
+    \label{fig:flip}
+\end{figure}
 
 \section{Rezultati učenja i ispitivanja}
-Prikazati statističke podatke o uspješnosti rješenja prilikom učenja/ispitivanja te opisati eksperimente na temelju kojih su podaci dobiveni.
 
-\section{Analiza rezultata}
+Što se tiče samog učenja duboke neuronske mreže, ono je provedeno uporabom grafičke kartice. Kako je učenje duboke neuronske mreže uporabom običnog stolnoga računala, bez korištenja grafičke kartice, vrlo sporo bilo je nužno posegnuti za nešto kompliciranijim i skupljim metodama. Za potrebe ovog projekta na servisu \emph{Microsoft Azure} podignut je virtualni stroj s \emph{nVidia Tesla K80 24GB CUDA} grafičkom karticom koji je učenje mreže obavljao bez većih problema. Usporedbe radi, na stolnom računalu jedna epoha učenja duboke neuronske mreže je trajala oko 63 sekunde, dok je na virtualnom stroju to iznosilo oko 1.33 sekunde. Kako je mreža u ovom projektu učena i na više od $18.000$ epoha, razlika je bila više nego osjetna.
 
-Analizirati uzroke rezultata ispitivanja, povezati sa uzorcima u bazi i algoritmima korištenim u rješenju. Raspraviti moguća poboljšanja.
+Prilikom učenja duboke neuronske mreže $30\%$ skupa za učenje je izuzeto kao skup za validaciju na kojem se provjeravala uspješnost generalizacija. Na grafu \ref{fig:lc} je prikazan odnos srednje kvadratne pogreške između skupa za validaciju i skupa za testiranje prilikom učenja. Tako naučena mreža je ostvarila minimalnu srednju pogrešku na skupu za učenje iznosa $0.00068$, te na skupu za validaciju iznosa $0.00072$.
+
+\begin{figure}[htb]
+    \centering
+    \includegraphics[width=14cm]{images/l_curves.png}
+    \caption{Srednja kvadratna pogreška tokom učenja}
+    \label{fig:lc}
+\end{figure}
 
 \chapter{Opis programske implementacije rješenja}
 
-Opisati sučelje programske implementacije i način korištenja implementacije.
+Programski kod korišten u ovome projektu napisan je u programskom jeziku Python (verzija 2.7.13). U projektu je korišteno nekoliko vanjskih biblioteka koje su potrebne za rad programa:
+\begin{itemize}
+    \item NumPy - rad s matricama,
+    \item Scikit-learn - za učenje mreže,
+    \item Theano - za učenje mreže kako na grafičkoj kartici tako i na procesoru,
+    \item Matplotlib - prikaz grafova,
+    \item Pandas - olakšan rad s korištenim strukturama,
+    \item CUDA toolkit - za pristup i rad na grafičkoj kartici i
+    \item OpenCV - biblioteka za prepoznavanje lica i rad s video zapisima.
+\end{itemize}
 
+Program se sastoji od 7 datoteka koje su potrebne za učenje i izvođenje programa.
+Datoteke \emph{common.py}, \emph{tst\_scene\_render.py} i \emph{video.py} koriste se za podršku rada s kamerom.
+
+Unutar datoteke \emph{learn.py} nalazi se implementacija koda koja uči mrežu, odnosno donosi predikcije za dani ulaz. Iako je većina parametara za trenutni problem dobro podešena, korisnik može mijenjati parametre mreže ili parametre algoritma učenja. Neki od parametara koje je moguće lako podesiti su broj filtara, veličinu filtra, \textit{dropout} stopu, broj neurona u skrivenom sloju, moment i stopu učenja ili broj epoha.
+
+Parametre koje je potrebno podesiti su varijable \emph{FTRAIN} i \emph{FTEST}. Vrijednost varijable \emph{FTRAIN} potrebno je postaviti kao putanju do datoteke u kojoj se nalaze podaci za učenje. Vrijednost varijable \emph{FTEST} treba postaviti kao putanju do datoteke u kojoj se nalaze podaci za testiranje.
+
+Unutar datoteke \emph{face\_points\_detector.py} nalazi se kod koji najprije poziva algoritam za prepoznavanje lica te zatim koristi sliku lica kao ulaz za implementirani algoritam koji prepoznaje karakteristične točke u licu.
+
+Unutar datoteke \emph{facedetect.py} nalazi se glavna metoda koja pokreće sam program. Unutar nje potrebno je postaviti putanju do mreže koja će se koristi.
+
+Program je moguće pokretati na dva načina. Prvi način poziva se kao: \emph{python facedetect.py} i na taj način program će koristiti kameru računala te će nad video-zapisom kojeg dobiva od kamere pokretati predikciju karakterističnih točaka. Drugi način poziva se kao: \emph{python facedetect.py putanjaDoSlike}, gdje \emph{putanjaDoSlike} predstavlja stvarnu putanju do slike, koja će se koristi kao ulaz za predikciju karakterističnih točaka lica na slici.
 
 \chapter{Zaključak}
 
