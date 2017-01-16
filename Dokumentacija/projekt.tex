@@ -33,7 +33,7 @@ Lokalizacija karakterističnih točaka lica u videu ili fotografiji je tehnika k
 
 Kroz ovaj projekt će se pokušati dani problem lokalizacije karakterističnih točaka lica riješiti uporabom dubokih neuronskih mreža.
 
-\section{TODO: Pregled i opis srodnih rješenja}
+\section{Pregled i opis srodnih rješenja}
 \input{chapters/RCPR.tex}
 
 \section{Konceptualno rješenje zadatka}
@@ -114,9 +114,9 @@ Na slici \ref{fig:haar} prikazane su osnovne Haarove značajke. Skaliranjem, rot
 
 \section{Lokalizacija karakterističnih točaka lica}
 
-Nakon izlučivanja pojedinih lica iz slike, dana lica se režu te skaliraju na uniformne vrijednosti, u ovom slučaju na dimenziju $96 \times 96$ slikovnih elemenata. Tako skalirana lica, tj. njihovi slikovni elementi se dovode na ulaze duboke neuronske mreže koja na svojim izlazima daje koordinate petnaest karakterističnih točaka lica: vrh nosa, lijevi i desni rub usta, sredina gornje i donje usne, centar oba oka, lijevi i desni kraj oba oka te lijevi i desni kraj obje obrve.
+Nakon izlučivanja pojedinih lica iz slike, dana lica se režu te skaliraju na uniformne vrijednosti, u ovom slučaju na dimenziju $96 \times 96$ slikovnih elemenata. Tako skalirana lica, tj. njihovi slikovni elementi se dovode na ulaze konvolucijske neuronske mreže koja na svojim izlazima daje koordinate petnaest karakterističnih točaka lica: vrh nosa, lijevi i desni rub usta, sredina gornje i donje usne, centar oba oka, lijevi i desni kraj oba oka te lijevi i desni kraj obje obrve.
 
-Primjer rada duboke neuronske mreže na lokalizaciji karakterističnih točaka lica vidljiv je na slici \ref{fig:lkt}.
+Primjer rada konvolucijske neuronske mreže na lokalizaciji karakterističnih točaka lica vidljiv je na slici \ref{fig:lkt}.
 
 \begin{figure}[htb]
     \centering
@@ -125,7 +125,34 @@ Primjer rada duboke neuronske mreže na lokalizaciji karakterističnih točaka l
     \label{fig:lkt}
 \end{figure}
 
-\subsection{TODO: Duboka neuronska mreža - Andrija ovdje ubaci teoriju}
+\subsection{Konvolucijska neuronska mreža}
+
+Konvolucijske neuronske mreže mogu se opisati kao nadogradnja nad običnim višeslojnim unaprijednim mrežama. Konvolucijska, kao i obična, neuronska mreža sastoji se od jednog ulaznog, jednog izlaznog i jednog ili više skrivenih slojeva. Kod konnvolucijskih neuronskih mreža specifični su konvolucijski slojevi i slojevi sažimanja. Osim njih često se koriste i potpuno povezani slojevi. Konvolucijske neuronske mreže najčešće kreću s jednim ili više konvolucijskih slojeva, zatim slijedi sloj sažimanja, pa ponovo konvolucijski sloj i tako nekoliko puta. Mreža najčešće završava s jednim ili više potpuno povezanih slojeva koji služe za klasifikaciju. Arhitektura konvolucijskih neuronskih mreža pokazala se izrazito dobra u radu sa slikama i prepoznavanju značajki s istih. Arhitektura jedne takve mreže prikazana je na slici \ref{fig:conv}.
+
+\begin{figure}[htb]
+    \centering
+    \includegraphics[width=13cm]{images/conv.png}
+    \caption{Konvolucijske neuronske mreže - preuzeto: \emph{https://goo.gl/a8baL9}}
+    \label{fig:conv}
+\end{figure}
+
+\subsection{Slojevi konvolucijske neuronske mreže}
+
+Konvolucijski sloj jedan je od glavnih dijelova svake konvolucijske neuronske mreže. Svaki konvolucijski sloj sastoji se od filtara koje sadrže težine koje je potrebno naučiti kako bi mreža davala dobre rezultate. Filtri su najčešće manjih prostornih dimenzija od ulaza, no uvijek su jednake dubine kao i ulaz. Izlaz sloja bit će sve aktivacijske mape generirane od strane filtara, odnosno izlaz će biti više dvodimenzionalnih matrica gdje svaka predstavlja jednu dubinu izlaza. U konvolucijskom sloju svaki izlazni neuron povezan je s pravokutnim podskupom ulazne rešetke neurona pri čemu korenspondirajuće veze imaju iste težine. Lokalna povezanost neurona i dijeljenje parametara uvelike smanjuje broj parametara koje je potrebno naučiti treniranjem mreže. Upravo zbog navedenih svojstava konvolucijskog sloja konvolucijske mreže su idealne za računalni vid gdje pretpostavljamo da se objekti na slikama sastoje od jednostavniji elemenata tj. značajki.
+
+U većini slučajeva nakon kovolucijskog sloja dolazi sloj sažimanja s ciljem smanjivanja rezolucije izlaznih mapi iz konvolucijskog sloja. No osim smanjivanja rezolucije, slojevi sažimanja povećavaju prosotornu invarijantnost. Najčešće korišteni način sažimanja je sažimanje maksimalnom vrijednosti gdje se grupirane vrijednosti zamjenjuju maksimalnom vrijednošću.
+
+Kao regularizacijski mehanizam kod dubokih neuronskih mreža koriste se \emph{dropout} slojevi. \emph{Dropout} sloj dolazi nakon kombinacije konvolucijskog sloja i sloja sažimanja ili potpuno povezanog sloja. Njegova je svrha da tokom učenja prekida pojedine veze između neurona i na taj način ne dolazi do promjena težina neurona niti on utječe na druge neurone.
+
+Za potrebe ovog projekta korištena su sva tri navedena sloja te je arhitektura mreže bila sljedeća:
+
+\begin{itemize}
+    \item ulazni sloj dimenzija $96 \times 96 = 9216$, 
+    \item kombinacija konvlucijskog sloja, sloja sažimanja te droput sloja - tri slijeda,
+    \item potpuno povezani sloj,
+    \item dropout sloj te
+    \item izlazni sloj dimenzija $30$ - koordinate 15 karakterističnih točaka lica.
+\end{itemize}
 
 \chapter{Ispitivanje rješenja}
 

@@ -271,7 +271,6 @@
 		\vfill
 		\begin{center}%
 	    	\if@radzavrsni%
-			  {\large\sffamily ZAVR\v{S}NI RAD br.~\@thesisnumber \par}%
 			\else \if@raddiplomski%
 			  {\large\sffamily Projekt iz predmeta Raspoznavanje uzoraka ~\@thesisnumber \par \vskip5mm
 			\large\sffamily Ak. god. 2016/17 ~\@thesisnumber \par }%
