@@ -36,6 +36,22 @@ Kroz ovaj projekt će se pokušati dani problem lokalizacije karakterističnih t
 \section{Pregled i opis srodnih rješenja}
 \input{chapters/RCPR.tex}
 
+\subsection{Yu, Huang, Zhang, Metaxas - Landmark Fitting via Optimized Part Mixtures and Cascaded Deformable Model}
+
+U ovom radu je predložena metoda pronalaženja karakterističnih točaka te njihovo praćenje. Glavna prednost nad drugim metodama je ta što uspješno razrješava probleme djelomične prekrivenosti lica i varijacije lica na temelju pozicije kamere. 
+
+Početne karakteristične točke se odaberu pomoću GSLS \engl{Group sparse learning strategy} tako da se težine regulariziraju kako bi postale rijetke te se margina maksimizira između pozitivnih i negativnih uzoraka za učenje. Rijetke karakteristične točke smanjuju propagaciju pogreške u odnosu na guste, ali ne potpuno točno označene karakteristične točke. Potom se u dva stupnja na sliku primjeni plastični model kako bi se pronašao globalni optimum.
+
+Predloženi model omogućava praćenje karakterističnih točaka u stvarnome vremenu i uspijeva dobiti zadovoljavajuće rezultate nad slikama koje su djelomično prekrivene, a testiranje u stvarnom svijetu daje rezultate koji su bolji od većine drugih korištenih modela i algoritama.
+
+\subsection{Zhu, Ramanan - Face Detection, Pose Estimation, and Landmark Localization in the Wild}
+
+Iako je u području računalnog vida veliki napredak napravljen kod problema detekcije lica, još uvijek je težak zadatak predstavlja procjena poze glave i orijentacije lica, pogotovo kod slika koje sadržavaju poze objekta koje nisu idealne, a česte su u stvarnom svijetu. Uobičajeno se zadacima detekcije lica, procjene poze i orijentacije lica pristupa kao posebnim problemima s odvojenim tehnikama rješavanja, no zadatak ovog rada je da se dobije model koji istodobno rješava sva tri navedena problema. 
+
+Model je temeljen na kolekciji stablastih struktura koje međusobno dijele različite kombinacije orijentacije lica. Svaku orijentaciju lica modelira se zasebno te se različite kombinacije istih koriste za prepoznavanje topoloških promjena s obzirom na perspektivu iz koje se promatra lice. 
+
+Kod učenja modela koristi se metoda nadziranog učenja te je učenje provedeno na 900 pozitivnih uzoraka iz \textbf{MultiPIE} baze podataka, koja sadrži oko 750 000 fotografija od 337 ljudi iz različitih perspektiva i uvjeta osvijetljenosti te 1218 negativnih uzoraka iz \textbf{RIAPerson} baze podataka, koja prevladava fotografijama iz vanjskog svijeta bez ljudi. Naučeni model nadmašuje rezultate veliku većinu komercijalnih alata u sva tri navedena zadatka u unutarnjim i vanjskim okruženjima iz stvarnog svijeta.
+
 \section{Konceptualno rješenje zadatka}
 
 Sam sustav za lokalizaciju karakterističnih točaka lica je podijeljen u više segmenata, tj. podsustava. Prvi segment sustava na ulaz prima sliku ili jedan vremenski okvir video isječka. Dana slika ili isječak se zatim pretvaraju u sliku sivih nijansi. Tako obrađena slika se dovodi na ulaz podsustava za izlučivanje položaja svih lica na slici te kao rezultat vraća listu u obliku: koordinate gornjeg lijevog ugla, širina i visina lica.
